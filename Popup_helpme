@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 /* Estilos básicos */
                 .popup-container {
                     position: fixed;
-                    bottom: 20px; /* Ajustado para ficar mais acima */
+                    bottom: 20px;
                     right: 10px;
                     width: 250px;
                     padding: 15px;
@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     transition: transform 0.4s ease, opacity 0.4s ease;
                     z-index: 999;
                     opacity: 0;
-                    transform: translateY(100%); /* Inicialmente escondido abaixo da tela */
+                    transform: translateY(100%);
                 }
 
                 .popup-container.level-2 {
@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
 
                 .atendimento-text {
-                    font-size: 21px; /* Texto fixo */
+                    font-size: 21px;
                     font-weight: bold;
                     text-align: center;
                     margin-bottom: 10px;
@@ -85,7 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 /* Quando minimizado */
                 .level-1 .atendimento-text {
-                    font-size: 21px; /* Texto fixo */
+                    font-size: 21px;
                     margin-bottom: 0;
                 }
 
