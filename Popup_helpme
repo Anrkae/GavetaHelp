@@ -1,13 +1,17 @@
 document.addEventListener("DOMContentLoaded", () => {
+    // Verifica se o usuário está na página inicial (exemplo: "/")
+    const isHomePage = window.location.pathname === "/";
+
     if (!document.getElementById("popupContainer")) {
         const popupHTML = `
-            <div id="popupContainer" class="popup-container level-1">
+            <div id="popupContainer" class="popup-container ${isHomePage ? 'level-2' : 'level-1'}"> <!-- Condicional para level -->
                 <div id="atendimentoText" class="atendimento-text">Precisa de ajuda?</div>
                 <div class="popup-btns-wrapper">
                     <a href="https://www.instagram.com/barretosportwear/" target="_blank" class="popup-btn">
                         <img src="https://i.imgur.com/3kNvmkd.png" alt="Instagram" class="social-img" />
                     </a>
-                    <a href="https://wa.me/5588996129495" target="_blank" class="popup-btn">
+                    <a href="https://wa.me/5588996129495?text=Ol%C3%A1%21%20Estou%20com%20d%C3%BAvidas."
+                        target="_blank" class="popup-btn">
                         <img src="https://i.imgur.com/wkfeZwD.png" alt="WhatsApp" class="social-img" />
                     </a>
                 </div>
@@ -105,6 +109,44 @@ document.addEventListener("DOMContentLoaded", () => {
                 .popup-btn:hover {
                     transform: scale(1.1);
                 }
+
+                /* Responsividade para telas pequenas */
+                @media (max-width: 600px) {
+                    .popup-container {
+                        width: 230px;
+                        padding: 5px;
+                    }
+
+                    .atendimento-text {
+                        font-size: 20px;
+                        margin-bottom: 5px;
+                    }
+
+                    .popup-btns-wrapper {
+                        gap: 20px;
+                    }
+
+                    .popup-btn {
+                        width: 60px;
+                        height: 60px;
+                    }
+                }
+
+                /* Responsividade para telas muito pequenas (como celulares antigos) */
+                @media (max-width: 375px) {
+                    .popup-container {
+                        width: 180px;
+                    }
+
+                    .atendimento-text {
+                        font-size: 16px;
+                    }
+
+                    .popup-btn {
+                        width: 50px;
+                        height: 50px;
+                    }
+                }
             `;
             document.head.appendChild(style);
         }
@@ -125,5 +167,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Ao clicar no texto, alterna entre level-1 e level-2
         atendimentoText.addEventListener("click", changePopupLevel);
+
+        // Função para voltar ao level-1 após 6 segundos de inatividade
+        let inactivityTimer;
+        const resetInactivityTimer = () => {
+            // Limpar o timer anterior
+            clearTimeout(inactivityTimer);
+            // Iniciar novo timer
+            inactivityTimer = setTimeout(() => {
+                if (popupContainer.classList.contains("level-2")) {
+                    popupContainer.classList.remove("level-2");
+                    popupContainer.classList.add("level-1");
+                }
+            }, 6000); // 6 segundos de inatividade
+        };
+
+        // Resetar o timer a cada interação
+        window.addEventListener("click", resetInactivityTimer);
+        window.addEventListener("mousemove", resetInactivityTimer);
+
+        // Inicializa o timer assim que o popup for exibido
+        resetInactivityTimer();
     }
 });
