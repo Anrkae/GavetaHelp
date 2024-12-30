@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!document.getElementById("popupContainer")) {
         const popupHTML = `
-            <div id="popupContainer" class="popup-container ${isHomePage ? 'level-2' : 'level-1'}"> <!-- Condicional para level -->
+            <div id="popupContainer" class="popup-container ${isHomePage ? 'level-2' : 'level-1'}">
                 <div id="atendimentoText" class="atendimento-text">Precisa de ajuda?</div>
                 <div class="popup-btns-wrapper">
                     <a href="https://www.instagram.com/barretosportwear/" target="_blank" class="popup-btn">
@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 /* Estilos básicos */
                 .popup-container {
                     position: fixed;
-                    bottom: 20px;
+                    bottom: 30px; /* Garantindo reposicionamento */
                     right: 10px;
                     width: 250px;
                     padding: 15px;
@@ -38,19 +38,19 @@ document.addEventListener("DOMContentLoaded", () => {
                     flex-direction: column;
                     align-items: center;
                     transition: transform 0.4s ease, opacity 0.4s ease;
-                    z-index: 999;
+                    z-index: 9999; /* Garante que o popup fique sempre à frente */
                     opacity: 0;
                     transform: translateY(100%);
                 }
 
                 .popup-container.level-2 {
                     opacity: 1;
-                    transform: translateY(0); /* Quando visível, retorna para a posição original */
+                    transform: translateY(0); /* Visível no level-2 */
                 }
 
                 .popup-container.level-1 {
                     opacity: 1;
-                    transform: translateY(70%); /* Fica abaixo da tela quando minimizado */
+                    transform: translateY(70%); /* Minimizado no level-1 */
                 }
 
                 .atendimento-text {
@@ -59,7 +59,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     text-align: center;
                     margin-bottom: 10px;
                     cursor: pointer;
-                    transition: font-size 0.3s ease, margin-bottom 0.3s ease;
                 }
 
                 .popup-btns-wrapper {
@@ -87,13 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     object-fit: cover;
                 }
 
-                /* Quando minimizado */
-                .level-1 .atendimento-text {
-                    font-size: 21px;
-                    margin-bottom: 0;
-                }
-
-                /* Nível 2 - Ajuste do texto e ícones */
+                /* Quando visível, o texto e ícones ficam no level-2 */
                 .level-2 .atendimento-text {
                     font-size: 18px;
                     margin-bottom: 0;
@@ -122,8 +115,8 @@ document.addEventListener("DOMContentLoaded", () => {
                         margin-bottom: 5px;
                     }
 
-                    .popup-btns-wrapper {
-                        gap: 20px;
+                    .popup-btn-wrapper {
+                        gap: 15px;
                     }
 
                     .popup-btn {
@@ -132,7 +125,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
                 }
 
-                /* Responsividade para telas muito pequenas (como celulares antigos) */
+                /* Responsividade para telas muito pequenas */
                 @media (max-width: 375px) {
                     .popup-container {
                         width: 180px;
@@ -179,12 +172,11 @@ document.addEventListener("DOMContentLoaded", () => {
                     popupContainer.classList.remove("level-2");
                     popupContainer.classList.add("level-1");
                 }
-            }, 6000); // 6 segundos de inatividade
+            }, 3500); // 3.5 segundos de inatividade
         };
 
         // Resetar o timer a cada interação
         window.addEventListener("click", resetInactivityTimer);
-        window.addEventListener("mousemove", resetInactivityTimer);
 
         // Inicializa o timer assim que o popup for exibido
         resetInactivityTimer();
