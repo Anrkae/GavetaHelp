@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     flex-direction: column;
                     align-items: center;
                     transition: transform 0.4s ease, opacity 0.4s ease;
-                    z-index: 9999; /* Garante que o popup fique sempre à frente */
+                    z-index: 1; /* Inicialmente abaixo do mobile menu e mini cart */
                     opacity: 0;
                     transform: translateY(100%);
                 }
@@ -51,6 +51,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 .popup-container.level-1 {
                     opacity: 1;
                     transform: translateY(70%); /* Minimizado no level-1 */
+                }
+
+                /* Novo level-3 para mover o popup fora da tela */
+                .popup-container.level-3 {
+                    transform: translateY(150%); /* Move o popup para fora da tela */
+                    opacity: 0;
                 }
 
                 .atendimento-text {
@@ -181,4 +187,32 @@ document.addEventListener("DOMContentLoaded", () => {
         // Inicializa o timer assim que o popup for exibido
         resetInactivityTimer();
     }
+
+    // Função para ajustar o z-index e esconder o popup abaixo dos outros elementos
+    const adjustPopupPosition = () => {
+        const drawer = document.getElementById("mobile-menu-drawer");
+        const miniCart = document.getElementById("mini-cart");
+
+        const popupContainer = document.getElementById("popupContainer");
+
+        if (drawer && miniCart && popupContainer) {
+            const drawerIsOpen = drawer.classList.contains("open");  // Ajuste conforme a lógica de abertura do seu menu
+            const miniCartIsOpen = miniCart.classList.contains("open");  // Ajuste conforme a lógica do mini cart
+
+            if (drawerIsOpen || miniCartIsOpen) {
+                // Se algum dos elementos estiver aberto, movemos o popup para um z-index baixo
+                popupContainer.style.zIndex = 0; // Isso vai manter o popup abaixo dos outros elementos
+            } else {
+                // Se ambos estiverem fechados, o popup fica acima
+                popupContainer.style.zIndex = 1;  // Ou o valor de z-index que você quiser para o popup
+            }
+        }
+    };
+
+    // Chama a função sempre que o estado do menu ou mini cart mudar
+    adjustPopupPosition();
+
+    // Se o estado do menu ou mini cart for alterado, re-ajuste o popup
+    document.getElementById("mobile-menu-drawer")?.addEventListener("transitionend", adjustPopupPosition);
+    document.getElementById("mini-cart")?.addEventListener("transitionend", adjustPopupPosition);
 });
